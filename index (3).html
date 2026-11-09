@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ivoire Play</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#F3F4F0;--sf:#fff;--ink:#0F2A24;--mut:#5A6E67;--ln:#DDE3DD;--or:#F47A00;--on-or:#1B0F00;--gr:#0E8A5F;--on-gr:#fff;--deep:#0F2A24;--bar:#F3F4F0;--bad:#C0392B;
+--fd:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;--fb:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A1B17;--sf:#12282A;--ink:#EEF3EE;--mut:#93A89F;--ln:#23403A;--or:#FF8F1F;--gr:#2FC48D;--on-gr:#04140E;--bar:#0A1B17;--bad:#E5604F;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0A1B17;--sf:#12282A;--ink:#EEF3EE;--mut:#93A89F;--ln:#23403A;--or:#FF8F1F;--gr:#2FC48D;--on-gr:#04140E;--bar:#0A1B17;--bad:#E5604F;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--fb);-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:12;background:var(--bar)}
+[hidden]{display:none!important}
+.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;height:56px;display:flex;align-items:center;padding:0 16px;background:var(--bar);border-bottom:1px solid var(--ln)}
+.logo{display:flex;align-items:center;gap:10px;font:800 20px var(--fd);letter-spacing:-.01em}
+.flag{display:flex;width:26px;height:18px;border-radius:4px;overflow:hidden;border:1px solid var(--ln)}
+.flag i{flex:1}.flag i:nth-child(1){background:var(--or)}.flag i:nth-child(2){background:#fff}.flag i:nth-child(3){background:var(--gr)}
+main{max-width:520px;margin:0 auto;padding:16px 16px calc(92px + env(safe-area-inset-bottom,0px))}
+.hero{border-radius:20px;padding:26px 20px;color:#fff;background:radial-gradient(circle at 20px 20px,rgba(244,122,0,.5) 0 5px,transparent 6px) 0 0/40px 40px,radial-gradient(circle at 0 0,rgba(255,255,255,.07) 0 15px,transparent 16px) 0 0/40px 40px,#0F2A24}
+.hero h1{font:800 31px/1.08 var(--fd);margin:0 0 10px;letter-spacing:-.015em}
+.hero p{margin:0;opacity:.88;max-width:32ch}
+.tile{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:14px;margin-top:12px;cursor:pointer;color:var(--ink);font:inherit}
+.ico{width:48px;height:48px;border-radius:14px;background:#0F2A24;color:#FF8F1F;display:grid;place-items:center;flex:none}
+.tile b{display:block;font:700 17px var(--fd)}
+.tile .d{display:block;color:var(--mut);font-size:14px;line-height:1.35}
+.tile .m{display:block;color:var(--gr);font-size:13px;font-weight:700;margin-top:2px}
+.tile .go{margin-left:auto;color:var(--mut)}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:11;display:flex;background:var(--sf);border-top:1px solid var(--ln);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;background:none;border:0;border-radius:10px;color:var(--mut);font:500 12px var(--fb);cursor:pointer}
+.tabs button[aria-current=page]{color:var(--ink);font-weight:700}
+.tabs button[aria-current=page] .i{color:var(--or)}
+.panel{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:18px}
+.t{font:800 25px/1.15 var(--fd);margin:2px 0 6px;letter-spacing:-.01em}
+.sub{color:var(--mut);margin:0 0 16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.chip{font:500 14px var(--fb);padding:8px 14px;border-radius:999px;border:1px solid var(--ln);background:var(--bg);color:var(--ink);cursor:pointer}
+.chip[aria-pressed=true]{background:#0F2A24;color:#fff;border-color:var(--or)}
+.btn{display:block;width:100%;font:700 16px var(--fb);padding:14px;border-radius:12px;border:0;background:var(--or);color:var(--on-or);cursor:pointer}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--ln);margin-top:10px}
+:is(.btn,.chip,.tile,.ans,.tabs button,.ctl button):focus-visible{outline:3px solid var(--or);outline-offset:2px}
+.prog{display:flex;justify-content:space-between;font-size:13px;color:var(--mut);margin-bottom:8px}
+.track{height:6px;background:var(--ln);border-radius:3px;overflow:hidden;margin-bottom:18px}
+.track i{display:block;height:100%;background:var(--gr);transition:width .3s}
+.q{font:700 21px/1.25 var(--fd);margin:0 0 14px}
+.ans{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:500 16px var(--fb);padding:12px;margin-top:8px;border-radius:12px;border:1px solid var(--ln);background:var(--bg);color:var(--ink);cursor:pointer}
+.ans em{font:700 13px var(--fd);font-style:normal;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--sf);border:1px solid var(--ln);color:var(--ink);flex:none}
+.ans.ok{background:var(--gr);color:var(--on-gr);border-color:var(--gr)}
+.ans.ko{background:var(--bad);color:#fff;border-color:var(--bad)}
+.center{text-align:center}
+.score{display:block;margin:6px auto 12px}
+.mono{width:72px;height:72px;border-radius:20px;background:#0F2A24;color:#FF8F1F;display:grid;place-items:center;font:800 36px var(--fd);margin-bottom:12px}
+.row{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:14px}
+.row span{width:112px;color:var(--mut)}
+.row i{display:block;height:8px;border-radius:4px;background:var(--or)}
+.hud{display:flex;gap:8px;margin-bottom:10px}
+.pill{flex:1;background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:8px 12px;font-size:12px;color:var(--mut)}
+.pill b{display:block;font:800 19px var(--fd);color:var(--ink)}
+.stage{position:relative;width:min(100%,380px,max(240px,calc((100vh - 330px)*.75)));width:min(100%,380px,max(240px,calc((100svh - 330px)*.75)));margin:0 auto}
+canvas{display:block;width:100%;aspect-ratio:3/4;border-radius:16px;touch-action:none;background:#26332F}
+.ov{position:absolute;inset:0;border-radius:16px;background:linear-gradient(rgba(10,27,23,.3),rgba(10,27,23,.72));color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+.ov h3{font:800 26px var(--fd);margin:0 0 6px}
+.ov p{margin:0 0 16px;opacity:.88;font-size:15px}
+.ov .btn{width:auto;padding:12px 32px}
+.ctl{display:flex;gap:10px;margin-top:10px}
+.ctl button{flex:1;height:52px;border-radius:12px;border:1px solid var(--ln);background:var(--sf);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H10l-5 4v-4H4z"/></symbol>
+<symbol id="i-bus" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16M8 21v-3M16 21v-3"/><circle cx="8.5" cy="14.5" r=".8"/><circle cx="15.5" cy="14.5" r=".8"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></symbol>
+<symbol id="i-r" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+<symbol id="i-l" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+<symbol id="i-snd" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v15H6a2 2 0 0 0-2 2z"/><path d="M4 20a2 2 0 0 0 2 1h13v-3"/></symbol>
+</defs></svg>
+
+<header class="bar"><div class="logo"><span class="flag"><i></i><i></i><i></i></span>Ivoire Play</div></header>
+
+<main>
+<section id="s-home">
+  <div class="hero"><h1>Quatre jeux pour toute la Côte d’Ivoire.</h1><p>Du nord au sud, teste tes mots et ta culture générale, prends la route et découvre ton profil.</p></div>
+  <button class="tile" data-go="nouchi"><span class="ico"><svg class="i"><use href="#i-chat"/></svg></span><span><b>Mots d’Ivoire</b><span class="d">Nouchi, cuisine, culture : 10 questions</span><span class="m" id="m-n"></span></span><svg class="i go"><use href="#i-r"/></svg></button>
+  <button class="tile" data-go="gbaka"><span class="ico"><svg class="i"><use href="#i-bus"/></svg></span><span><b>Route d’Ivoire</b><span class="d">Traverse le pays de ville en ville</span><span class="m" id="m-g"></span></span><svg class="i go"><use href="#i-r"/></svg></button>
+  <button class="tile" data-go="profil"><span class="ico"><svg class="i"><use href="#i-user"/></svg></span><span><b>Ton profil ivoirien</b><span class="d">5 questions, un caractère</span><span class="m" id="m-p"></span></span><svg class="i go"><use href="#i-r"/></svg></button>
+  <button class="tile" data-go="culture"><span class="ico"><svg class="i"><use href="#i-book"/></svg></span><span><b>Culture générale</b><span class="d">Monde, histoire, sciences, sport : 10 questions</span><span class="m" id="m-c"></span></span><svg class="i go"><use href="#i-r"/></svg></button>
+</section>
+
+<section id="s-nouchi" hidden><div class="panel" id="n-box"></div></section>
+
+<section id="s-gbaka" hidden>
+  <h2 class="t">Route d’Ivoire</h2>
+  <div class="hud"><div class="pill">Passagers<b id="g-s">0</b></div><div class="pill">Vies<b id="g-l" style="color:var(--or)">●●●</b></div><div class="pill">Étape<b id="g-b" style="font-size:15px;line-height:1.5">Abidjan</b></div></div>
+  <div class="stage">
+    <canvas id="cv" aria-label="Zone de jeu"></canvas>
+    <div class="ov" id="g-ov"><h3 id="g-ot">Route d’Ivoire</h3><p id="g-op">Maintiens la gauche ou la droite pour conduire. Ramasse les passagers, évite camions, taxis et nids-de-poule.</p><button class="btn" id="g-start">Jouer</button></div>
+  </div>
+  <div class="ctl"><button id="g-left" aria-label="Aller à gauche"><svg class="i"><use href="#i-l"/></svg></button><button id="g-right" aria-label="Aller à droite"><svg class="i"><use href="#i-r"/></svg></button><button id="g-snd" aria-label="Activer ou couper le son" style="flex:.45"><svg class="i"><use href="#i-snd"/></svg></button></div>
+</section>
+
+<section id="s-profil" hidden><div class="panel" id="p-box"></div></section>
+
+<section id="s-culture" hidden><div class="panel" id="c-box"></div></section>
+</main>
+
+<nav class="tabs" aria-label="Navigation">
+  <button data-go="home" aria-current="page"><svg class="i"><use href="#i-home"/></svg>Accueil</button>
+  <button data-go="nouchi"><svg class="i"><use href="#i-chat"/></svg>Mots</button>
+  <button data-go="gbaka"><svg class="i"><use href="#i-bus"/></svg>Route</button>
+  <button data-go="profil"><svg class="i"><use href="#i-user"/></svg>Profil</button>
+  <button data-go="culture"><svg class="i"><use href="#i-book"/></svg>Culture</button>
+</nav>
+
+<script>
+const $=id=>document.getElementById(id);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const vib=n=>{try{navigator.vibrate&&navigator.vibrate(n)}catch(e){}};
+async function share(text,btn){
+  try{if(navigator.share){await navigator.share({text});return}}catch(e){}
+  try{await navigator.clipboard.writeText(text);btn.textContent='Copié'}catch(e){btn.textContent='Copie impossible'}
+}
+const SC=['home','nouchi','gbaka','profil','culture'];
+function go(n){
+  SC.forEach(s=>$('s-'+s).hidden=s!==n);
+  document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-current',b.dataset.go===n?'page':'false'));
+  if(n==='gbaka')enterG();else stopG();
+  scrollTo(0,0);
+}
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+
+/* ---------- Nouchi Battle ---------- */
+const COMS=['Abidjan','Yamoussoukro','Bouaké','Korhogo','San-Pédro','Daloa','Man','Abengourou','Grand-Bassam','Odienné'];
+const NQ=[
+["« Môgô » veut dire…","Une personne, un mec"],
+["Un « gaou », c’est…","Quelqu’un de naïf"],
+["« Go » désigne…","Une fille, une copine"],
+["« Enjailler », c’est…","S’amuser en ayant du style"],
+["On dit « Yako ! » pour…","Réconforter quelqu’un"],
+["« On est ensemble » signifie souvent…","D’accord, à plus tard"],
+["« Akwaba » veut dire…","Bienvenue"],
+["Quelle ville est la capitale politique du pays ?","Yamoussoukro",["Abidjan","Bouaké","San-Pédro"]],
+["Quelle ville est la capitale économique ?","Abidjan",["Yamoussoukro","Bouaké","San-Pédro"]],
+["Le kédjenou, c’est…","Un plat mijoté à l’étouffée",["Une boisson au gingembre","Un tissu traditionnel","Une danse acrobatique"]],
+["L’attiéké est fait à base de…","Manioc",["Maïs","Riz","Igname"]],
+["Quel produit la Côte d’Ivoire produit-elle le plus au monde ?","Le cacao",["Le café","Le coton","Le thé"]],
+["Quelle danse ivoirienne est classée à l’UNESCO ?","Le zaouli",["Le coupé-décalé","Le mapouka","Le ndombolo"]],
+["Quel est le surnom de l’équipe nationale de football ?","Les Éléphants",["Les Lions","Les Aigles","Les Panthères"]],
+["Quelle ville est connue pour ses montagnes et ses ponts de lianes ?","Man",["Korhogo","Bondoukou","Abengourou"]],
+["Quelle fête de Grand-Bassam célèbre le nouvel an des N’zima ?","L’Abissa",["Le Dipri","Le Popo Carnaval","La fête des masques"]],
+["Quelle est la devise du pays ?","Union, Discipline, Travail",["Paix, Travail, Patrie","Liberté, Égalité, Fraternité","Unité, Progrès, Justice"]]
+];
+const NW=["Un plat de poisson","Une danse","Un tissu","Un instrument de musique","Se fâcher","Il pleut","Nous sommes en retard","Un chauffeur de taxi","Un marché","Un garçon"];
+let com='Abidjan',ni=0,ns=0,nl=[],nBest=-1;
+function nStart(){
+  $('n-box').innerHTML=`<h2 class="t">Mots d’Ivoire</h2><p class="sub">Nouchi, cuisine, culture : 10 questions sur le pays. Choisis la ville que tu représentes.</p><div class="chips">${COMS.map(c=>`<button class="chip" aria-pressed="${c===com}">${c}</button>`).join('')}</div><button class="btn" id="n-go">Commencer</button>`;
+  $('n-box').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{com=b.textContent;$('n-box').querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+  $('n-go').onclick=()=>{nl=shuffle(NQ).slice(0,10);ni=0;ns=0;nShow()};
+}
+function nShow(){
+  const el=$('n-box');
+  if(ni>=nl.length){
+    nBest=Math.max(nBest,ns);$('m-n').textContent='Meilleur score : '+nBest+'/'+nl.length;
+    const v=ns>=9?'Champion du pays':ns>=6?'Tu connais ton pays':ns>=3?'Encore un tour de piste':'Il faut voyager un peu';
+    const C=2*Math.PI*52;
+    el.innerHTML=`<div class="center"><svg class="score" width="130" height="130" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="var(--ln)" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="var(--gr)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${(ns/nl.length*C).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 60 60)"/><text x="60" y="68" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="30" fill="var(--ink)">${ns}/${nl.length}</text></svg><h2 class="t">${v}</h2><p class="sub">Score pour ${com}.</p></div><button class="btn" id="n-sh">Défier mes amis</button><button class="btn alt" id="n-re">Rejouer</button>`;
+    $('n-sh').onclick=e=>share(`J’ai fait ${ns}/${nl.length} à Mots d’Ivoire pour ${com}. Tu peux faire mieux ?`,e.target);
+    $('n-re').onclick=nStart;return;
+  }
+  const [q,a,d]=nl[ni],opts=shuffle([a,...(d||shuffle(NW).slice(0,3))]);
+  el.innerHTML=`<div class="prog"><span>Question ${ni+1} sur ${nl.length}</span><span>${com}</span></div><div class="track"><i style="width:${ni/nl.length*100}%"></i></div><p class="q">${q}</p>`+opts.map((o,k)=>`<button class="ans"><em>${'ABCD'[k]}</em>${o}</button>`).join('');
+  el.querySelectorAll('.ans').forEach(b=>b.onclick=()=>{
+    const good=b.textContent.slice(1)===a;
+    el.querySelectorAll('.ans').forEach(x=>{x.disabled=true;if(x.textContent.slice(1)===a)x.classList.add('ok')});
+    if(good){ns++;vib(15)}else{b.classList.add('ko');vib([30,40,30])}
+    ni++;setTimeout(nShow,950);
+  });
+}
+
+/* ---------- Route d’Ivoire : course en pseudo-3D ---------- */
+const cv=$('cv'),cx=cv.getContext('2d'),W=360,H=480,HZ=190,ZS=8,PZ=10,LN=[-.667,0,.667],dpr=Math.min(2,window.devicePixelRatio||1);
+cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
+const CITIES=[[0,'Abidjan'],[900,'Yamoussoukro'],[2200,'Bouaké'],[3800,'Korhogo'],[5600,'Odienné']],GOAL=6500;
+const cityOf=d=>CITIES.filter(c=>d>=c[0]).pop()[1];
+const PAL=[
+{s0:'#2b1b4a',s1:'#ff9a5a',sun:'#ffd27a',ga:'#2f8f4e',gb:'#2a8247',h1:'#1d5b4a',h2:'#16443a'},
+{s0:'#2a7de1',s1:'#bfe3ff',sun:'#fff6c9',ga:'#3da35a',gb:'#379a53',h1:'#2c7a62',h2:'#256a54'},
+{s0:'#1e90ff',s1:'#d6f0ff',sun:'#ffffff',ga:'#5aa845',gb:'#52a03e',h1:'#3f8a5a',h2:'#347a4d'},
+{s0:'#e8793a',s1:'#ffd89a',sun:'#fff0b0',ga:'#b9a23f',gb:'#ae9737',h1:'#9a6a3a',h2:'#7f5530'},
+{s0:'#1b1740',s1:'#e8604a',sun:'#ffb36b',ga:'#7d7a3a',gb:'#736f33',h1:'#4a2f4a',h2:'#38243a'}];
+const hx=c=>[1,3,5].map(i=>parseInt(c.slice(i,i+2),16));
+const mixc=(a,b,t)=>{a=hx(a);b=hx(b);return 'rgb('+a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join()+')'};
+function stg(d){let i=0;CITIES.forEach((c,k)=>{if(d>=c[0])i=k});const nx=CITIES[i+1]?CITIES[i+1][0]:1e9;return [i,Math.max(0,Math.min(1,(d-(nx-350))/350))]}
+let G,live=false,last=0,gBest=0,dir=0,snd=true,AC=null,eng=null;
+const rnd=(a,b)=>a+Math.random()*(b-a),pick=a=>a[Math.floor(Math.random()*a.length)];
+function newG(mode){
+  const g={mode,pos:0,dist:0,px:0,vx:0,sp:15,s:0,life:3,inv:0,cur:0,tc:2,cu:0,bg:0,obj:[],ts:.5,tn:0,t:0,shake:0,flash:0,banner:0,parts:[],lane:1,city:'Abidjan',hs:''};
+  for(let d=8;d<172;d+=rnd(5,9)){const sd=Math.random()<.5?-1:1;g.obj.push({k:'t',ty:'p',z:d,l:sd*rnd(1.45,3.1),lean:rnd(-.5,.5),g:pick(['#2F7D32','#3E9B3F'])})}
+  return g;
+}
+G=newG('idle');
+function spawn(){
+  G.lane=(G.lane+1+Math.floor(Math.random()*2))%3;
+  const r=Math.random(),k=r<.46?'p':r<.68?'w':r<.82?'c':'n';
+  G.obj.push({k,l:LN[G.lane],z:G.pos+150,v:k==='w'?8:k==='c'?11:0,taxi:Math.random()<.5,sk:pick(['#8D5524','#6B4226','#C68642','#4A2C17']),
+  c:k==='w'?pick(['#3E6FB0','#C0392B','#E9E9E4','#2E8B57','#8E44AD']):k==='c'?pick(['#F2C200','#E9E9E4','#3E6FB0','#C0392B']):pick(['#E94F37','#3E8EDE','#F2C94C','#9B5DE5','#00BBF9'])});
+}
+function spark(n,bad){for(let i=0;i<n;i++)G.parts.push({x:W/2+rnd(-34,34),y:H-110,vx:rnd(-110,110),vy:rnd(-220,-60),l:rnd(.4,.8),c:bad?pick(['#F47A00','#9aa0a6','#fff']):pick(['#2FE696','#F2C94C','#fff'])})}
+function sfx(k){
+  if(!snd||!AC)return;const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);
+  if(k==='p'){o.type='triangle';o.frequency.setValueAtTime(660,t);o.frequency.exponentialRampToValueAtTime(1320,t+.12);g.gain.setValueAtTime(.12,t);g.gain.exponentialRampToValueAtTime(.001,t+.2);o.start(t);o.stop(t+.22)}
+  else if(k==='h'){o.type='sawtooth';o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(40,t+.35);g.gain.setValueAtTime(.2,t);g.gain.exponentialRampToValueAtTime(.001,t+.4);o.start(t);o.stop(t+.42)}
+  else{o.type='square';o.frequency.setValueAtTime(523,t);o.frequency.setValueAtTime(784,t+.1);g.gain.setValueAtTime(.07,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);o.start(t);o.stop(t+.38)}
+}
+function startEng(){if(!AC||!snd||eng)return;const o=AC.createOscillator(),f=AC.createBiquadFilter(),g=AC.createGain();o.type='sawtooth';f.type='lowpass';f.frequency.value=380;g.gain.value=.03;o.connect(f);f.connect(g);g.connect(AC.destination);o.start();eng={o}}
+function stopEng(){if(eng){try{eng.o.stop()}catch(e){}eng=null}}
+function hudG(){
+  const h=G.s+'|'+G.life+'|'+cityOf(G.dist);if(h===G.hs)return;G.hs=h;
+  $('g-s').textContent=G.s;$('g-l').textContent='●'.repeat(Math.max(0,G.life))+'○'.repeat(3-Math.max(0,G.life));$('g-b').textContent=cityOf(G.dist);
+}
+function endG(){
+  const win=G.dist>=GOAL;G.mode='over';stopEng();gBest=Math.max(gBest,G.s);$('m-g').textContent='Record : '+gBest+' passagers';
+  $('g-ot').textContent=win?'Arrivée à Odienné':'Arrêt à '+cityOf(G.dist);
+  $('g-op').textContent=win?G.s+' passagers ont traversé le pays avec toi.':G.s+(G.s>1?' passagers à bord, ':' passager à bord, ')+Math.round(Math.min(1,G.dist/GOAL)*100)+' % du trajet.';
+  $('g-start').textContent='Rejouer';$('g-ov').hidden=false;
+}
+function hit(){
+  G.obj.forEach(o=>{
+    if(o.k==='t'||o.k==='b'||o.k==='g'||o.dead)return;
+    const dz=o.z-G.pos;
+    if(dz>PZ-1.5&&dz<PZ+1&&Math.abs(o.l-G.px)<(o.k==='p'?.36:.32)){
+      if(o.k==='p'){o.dead=1;G.s++;sfx('p');vib(10);spark(14)}
+      else if(G.inv<=0){o.dead=1;G.life--;G.inv=1.6;G.sp*=.45;G.shake=.6;G.flash=.4;sfx('h');vib(80);spark(12,1)}
+    }
+  });
+  G.obj=G.obj.filter(o=>!o.dead);
+}
+function upd(dt){
+  G.t+=dt;const m=G.mode;
+  if(G.inv>0)G.inv-=dt;if(G.shake>0)G.shake-=dt*1.6;if(G.flash>0)G.flash-=dt;if(G.banner>0)G.banner-=dt;
+  const tg=m==='play'?Math.min(52,26+G.dist*.004):m==='over'?0:15;
+  G.sp+=(tg-G.sp)*Math.min(1,dt*(m==='over'?2.5:.9));
+  if(m==='play'&&Math.abs(G.px)>1.02)G.sp*=1-dt*1.3;
+  G.pos+=G.sp*dt;if(m==='play')G.dist=G.pos;
+  G.tc-=dt;if(G.tc<=0){G.tc=rnd(3,7);G.cu=Math.random()<.3?0:rnd(-.8,.8)}
+  G.cur+=(G.cu-G.cur)*Math.min(1,dt*.7);G.bg+=G.cur*G.sp*dt*.7;
+  if(m==='play'){G.vx+=(dir*1.9-G.vx)*Math.min(1,dt*7);G.px+=G.vx*dt-G.cur*dt*(G.sp/52)*.95;G.px=Math.max(-1.18,Math.min(1.18,G.px))}
+  else if(m==='idle')G.px=Math.sin(G.t*.6)*.18;
+  G.tn-=dt*(G.sp/30);
+  if(G.tn<=0){G.tn=rnd(.3,.65);const sd=Math.random()<.5?-1:1;G.obj.push({k:Math.random()<.78?'t':'b',ty:G.dist>=3800?'a':'p',z:G.pos+172,l:sd*rnd(1.45,3.1),lean:rnd(-.5,.5),g:pick(['#2F7D32','#3E9B3F'])})}
+  if(m==='play'){G.ts-=dt;if(G.ts<=0){G.ts=Math.max(.3,.62-G.dist*.00005);spawn()}}
+  G.obj.forEach(o=>o.z+=(o.v||0)*dt);
+  if(m==='play')hit();
+  G.obj=G.obj.filter(o=>o.z-G.pos>-6);
+  G.parts.forEach(q=>{q.x+=q.vx*dt;q.y+=q.vy*dt;q.vy+=320*dt;q.l-=dt});G.parts=G.parts.filter(q=>q.l>0);
+  if(eng)eng.o.frequency.value=50+G.sp*2.4;
+  const c=cityOf(G.dist);if(m==='play'&&c!==G.city){G.city=c;G.banner=2.4;sfx('c')}
+  if(m==='play'&&(G.life<=0||G.dist>=GOAL))endG();
+  hudG();
+}
+function rr(x,y,w,h,r,c){cx.fillStyle=c;cx.beginPath();if(cx.roundRect)cx.roundRect(x,y,w,h,r);else cx.rect(x,y,w,h);cx.fill()}
+function shd(x,y,rx,ry,a){cx.fillStyle='rgba(0,0,0,'+a+')';cx.beginPath();cx.ellipse(x,y,rx,ry,0,0,7);cx.fill()}
+function sTruck(x,y,u,o){const w=u*.5,h=w*1.02;shd(x,y,w*.6,w*.1,.35);rr(x-w*.46,y-w*.14,w*.16,w*.16,2,'#111');rr(x+w*.3,y-w*.14,w*.16,w*.16,2,'#111');rr(x-w/2,y-h,w,h-w*.1,w*.07,o.c);rr(x-w/2,y-h,w,h*.1,w*.05,'rgba(255,255,255,.28)');rr(x-w*.01,y-h*.92,Math.max(1,w*.02),h*.75,0,'rgba(0,0,0,.25)');rr(x-w*.45,y-w*.28,w*.14,w*.08,1,'#ff3b30');rr(x+w*.31,y-w*.28,w*.14,w*.08,1,'#ff3b30')}
+function sCar(x,y,u,o){const w=u*.4,h=w*.66;shd(x,y,w*.6,w*.1,.35);rr(x-w*.5,y-h,w,h*.9,w*.14,o.c);rr(x-w*.36,y-h*.9,w*.72,h*.36,w*.08,'#13262B');rr(x-w*.5,y-h*.38,w*.18,h*.14,1,'#ff3b30');rr(x+w*.32,y-h*.38,w*.18,h*.14,1,'#ff3b30');if(o.taxi)rr(x-w*.14,y-h*1.12,w*.28,h*.16,2,'#fff')}
+function sPot(x,y,u){cx.fillStyle='#1a1d1f';cx.strokeStyle='rgba(255,255,255,.2)';cx.lineWidth=Math.max(1,u*.012);cx.beginPath();cx.ellipse(x,y-u*.02,u*.2,u*.055,0,0,7);cx.fill();cx.stroke()}
+function sPass(x,y,u,o){
+  const h=u*.46,w=h*.38,pu=.5+.5*Math.sin(G.t*6);
+  cx.strokeStyle='rgba(47,230,150,'+(.35+.4*pu)+')';cx.lineWidth=Math.max(1.5,u*.014);cx.beginPath();cx.ellipse(x,y,w*1.6+pu*w*.3,w*.5+pu*w*.1,0,0,7);cx.stroke();
+  shd(x,y,w*.7,w*.18,.3);rr(x-w*.38,y-h*.22,w*.3,h*.22,2,'#222');rr(x+w*.08,y-h*.22,w*.3,h*.22,2,'#222');rr(x-w*.5,y-h*.64,w,h*.5,w*.25,o.c);
+  cx.fillStyle=o.sk;cx.beginPath();cx.arc(x,y-h*.78,w*.36,0,7);cx.fill();
+  cx.strokeStyle=o.sk;cx.lineWidth=Math.max(1.5,w*.18);cx.lineCap='round';cx.beginPath();cx.moveTo(x+w*.4,y-h*.55);cx.lineTo(x+w*.8,y-h*1.05);cx.stroke();
+}
+function sTree(x,y,u,o){
+  const h=u*1.15,tx=x+o.lean*h*.18,ty=y-h;shd(x,y,u*.18,u*.04,.25);
+  cx.lineCap='round';cx.strokeStyle='#6b4a2b';cx.lineWidth=Math.max(1.5,u*.05);cx.beginPath();cx.moveTo(x,y);cx.quadraticCurveTo(x+o.lean*h*.02,y-h*.5,tx,ty);cx.stroke();
+  if(o.ty==='a'){cx.fillStyle='#5B6B2A';cx.beginPath();cx.ellipse(tx,ty,u*.5,u*.13,0,0,7);cx.fill();cx.fillStyle='#74842f';cx.beginPath();cx.ellipse(tx+u*.1,ty-u*.07,u*.36,u*.09,0,0,7);cx.fill();return}
+  cx.strokeStyle=o.g;cx.lineWidth=Math.max(1.5,u*.04);
+  for(let k=0;k<7;k++){const a=Math.PI+k*Math.PI/6,L=u*.55;cx.beginPath();cx.moveTo(tx,ty);cx.quadraticCurveTo(tx+Math.cos(a)*L*.6,ty+Math.sin(a)*L*.5,tx+Math.cos(a)*L,ty+Math.sin(a)*L*.2+L*.35);cx.stroke()}
+}
+function sBush(x,y,u,o){cx.fillStyle=o.g;cx.beginPath();cx.ellipse(x,y-u*.04,u*.15,u*.075,0,0,7);cx.fill()}
+function sGate(c,y,hw,o){
+  const xl=c-1.25*hw,xr=c+1.25*hw,h=hw*.62,bw=xr-xl;
+  cx.strokeStyle='#d9ddd9';cx.lineWidth=Math.max(2,hw*.04);cx.beginPath();cx.moveTo(xl,y);cx.lineTo(xl,y-h);cx.moveTo(xr,y);cx.lineTo(xr,y-h);cx.stroke();
+  rr(xl-hw*.04,y-h-hw*.02,bw+hw*.08,hw*.2,hw*.03,'#0F2A24');rr(xl-hw*.04,y-h+hw*.14,bw+hw*.08,hw*.04,0,'#F47A00');
+  cx.fillStyle='#fff';cx.font='800 '+Math.max(7,hw*.13)+'px Bricolage Grotesque,sans-serif';cx.textAlign='center';cx.fillText(o.name,(xl+xr)/2,y-h+hw*.11);
+}
+function drawBus(){
+  const h=70,tilt=G.vx*.035,bob=Math.sin(G.t*20)*.8*(G.sp/52);
+  cx.save();cx.translate(W/2,H-54+bob);cx.rotate(tilt);if(G.inv>0&&Math.floor(G.t*12)%2)cx.globalAlpha=.4;
+  shd(0,4,56,9,.38);rr(-46,-16,17,20,4,'#0c0c0c');rr(29,-16,17,20,4,'#0c0c0c');
+  const bg=cx.createLinearGradient(0,-h,0,-8);bg.addColorStop(0,'#FFA43F');bg.addColorStop(1,'#E26500');
+  rr(-48,-h,96,h-8,13,bg);rr(-42,-h-6,84,11,6,'#FFB968');
+  rr(-36,-h+10,72,27,7,'#12262B');cx.fillStyle='rgba(255,255,255,.14)';cx.beginPath();cx.moveTo(-30,-h+12);cx.lineTo(-8,-h+12);cx.lineTo(-22,-h+35);cx.lineTo(-34,-h+35);cx.fill();
+  rr(-48,-27,96,6,0,'#fff');rr(-48,-21,96,6,0,'#0E8A5F');
+  cx.shadowColor='#ff3b30';cx.shadowBlur=G.sp<15||G.inv>0?18:8;rr(-44,-42,13,8,3,'#ff3b30');rr(31,-42,13,8,3,'#ff3b30');cx.shadowBlur=0;
+  rr(-13,-14,26,10,2,'#fff');cx.fillStyle='#0F2A24';cx.font='700 8px DM Sans,sans-serif';cx.textAlign='center';cx.fillText('CI 225',0,-6.5);
+  cx.restore();
+}
+function draw(){
+  const [si,st]=stg(G.dist),nx=Math.min(4,si+1),col=k=>mixc(PAL[si][k],PAL[nx][k],st),hh=H-HZ;
+  cx.save();
+  if(G.shake>0)cx.translate(rnd(-5,5)*G.shake,rnd(-5,5)*G.shake);
+  const sk=cx.createLinearGradient(0,0,0,HZ);sk.addColorStop(0,col('s0'));sk.addColorStop(1,col('s1'));cx.fillStyle=sk;cx.fillRect(-12,-12,W+24,HZ+12);
+  const sx=(((W*.7-G.bg*.05)%(W+160))+W+160)%(W+160)-80,sy=HZ-36;
+  cx.fillStyle=col('sun');[[64,.14],[42,.2],[22,1]].forEach(a=>{cx.globalAlpha=a[1];cx.beginPath();cx.arc(sx,sy,a[0],0,7);cx.fill()});
+  cx.fillStyle='#fff';cx.globalAlpha=.3;
+  [[.15,50,60],[.55,30,44],[.85,66,52]].forEach(a=>{const x=((a[0]*W+G.t*4-G.bg*.08)%(W+120)+W+120)%(W+120)-60;cx.beginPath();cx.ellipse(x,a[1],a[2],9,0,0,7);cx.fill();cx.beginPath();cx.ellipse(x+a[2]*.4,a[1]-5,a[2]*.5,8,0,0,7);cx.fill()});
+  cx.globalAlpha=1;
+  [['h1',34,.25,0],['h2',20,.5,2]].forEach(a=>{cx.fillStyle=col(a[0]);cx.beginPath();cx.moveTo(0,HZ+2);for(let x=0;x<=W;x+=10){const q=(x+G.bg*a[2])*.014+a[3];cx.lineTo(x,HZ-6-a[1]*(.5+.35*Math.sin(q)+.15*Math.sin(q*2.3)))}cx.lineTo(W,HZ+2);cx.fill()});
+  const ga=col('ga'),gb=col('gb');cx.fillStyle=ga;cx.fillRect(0,HZ,W,hh);
+  for(let y=HZ;y<H;y++){
+    const p=(y-HZ+1)/hh,near=p>.17,str=near?Math.floor((G.pos+ZS/p)/3.2)%2:0,hw=W*.03+p*W*.62,c=W/2+G.cur*(1-p)*(1-p)*W*.6-G.px*hw;
+    if(str){cx.fillStyle=gb;cx.fillRect(0,y,W,1.2)}
+    cx.fillStyle=str?'#F47A00':'#f4f4f0';cx.fillRect(c-hw*1.13,y,hw*2.26,1.2);
+    cx.fillStyle=str?'#3a4046':'#343a40';cx.fillRect(c-hw,y,hw*2,1.2);
+    if(near&&!str){cx.fillStyle='rgba(255,255,255,.7)';const lw=Math.max(1,hw*.025);cx.fillRect(c-hw/3-lw/2,y,lw,1.2);cx.fillRect(c+hw/3-lw/2,y,lw,1.2)}
+  }
+  cx.fillStyle=col('s1');for(let k=0;k<10;k++){cx.globalAlpha=(1-k/10)*.55;cx.fillRect(0,HZ+k*5,W,5)}cx.globalAlpha=1;
+  G.obj.filter(o=>o.z-G.pos<175&&o.z-G.pos>5.2).sort((a,b)=>b.z-a.z).forEach(o=>{
+    const dz=o.z-G.pos,p=ZS/dz,y=HZ+p*hh,hw=W*.03+p*W*.62,c=W/2+G.cur*(1-p)*(1-p)*W*.6-G.px*hw,x=c+o.l*hw;
+    cx.globalAlpha=Math.min(1,p*7);
+    if(o.k==='g')sGate(c,y,hw,o);else if(o.k==='p')sPass(x,y,hw,o);else if(o.k==='w')sTruck(x,y,hw,o);else if(o.k==='c')sCar(x,y,hw,o);
+    else if(o.k==='n')sPot(x,y,hw);else if(o.k==='t')sTree(x,y,hw,o);else sBush(x,y,hw,o);
+  });
+  cx.globalAlpha=1;drawBus();
+  G.parts.forEach(q=>{cx.globalAlpha=Math.min(1,q.l*2);cx.fillStyle=q.c;cx.fillRect(q.x,q.y,3.5,3.5)});cx.globalAlpha=1;
+  cx.restore();
+  const vg=cx.createRadialGradient(W/2,H/2,H*.35,W/2,H/2,H*.78);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.42)');cx.fillStyle=vg;cx.fillRect(0,0,W,H);
+  if(G.flash>0){cx.fillStyle='rgba(255,40,30,'+G.flash*.6+')';cx.fillRect(0,0,W,H)}
+  rr(16,16,W-32,6,3,'rgba(255,255,255,.3)');rr(16,16,Math.max(6,(W-32)*Math.min(1,G.dist/GOAL)),6,3,'#FF8F1F');
+  CITIES.concat([[GOAL]]).forEach(c=>{cx.fillStyle=G.dist>=c[0]?'#FF8F1F':'#fff';cx.beginPath();cx.arc(16+(W-32)*c[0]/GOAL,19,5,0,7);cx.fill()});
+  cx.shadowColor='rgba(0,0,0,.6)';cx.shadowBlur=4;cx.fillStyle='#fff';cx.textAlign='left';cx.font='700 13px DM Sans,sans-serif';cx.fillText(cityOf(G.dist),16,44);
+  cx.textAlign='right';cx.font='800 18px Bricolage Grotesque,sans-serif';cx.fillText(Math.round(G.sp*3.2)+' km/h',W-16,H-14);cx.shadowBlur=0;
+  if(G.banner>0){cx.globalAlpha=Math.min(1,G.banner*1.5);rr(W/2-120,96,240,62,14,'rgba(15,42,36,.88)');rr(W/2-120,152,240,3,0,'#F47A00');cx.textAlign='center';cx.fillStyle='#FF8F1F';cx.font='700 12px DM Sans,sans-serif';cx.fillText('Étape atteinte',W/2,118);cx.fillStyle='#fff';cx.font='800 24px Bricolage Grotesque,sans-serif';cx.fillText(G.city,W/2,144);cx.globalAlpha=1}
+}
+function frame(ts){
+  if(!live)return;
+  const dt=Math.min(.04,(ts-last)/1000||.016);last=ts;
+  upd(dt);draw();requestAnimationFrame(frame);
+}
+function enterG(){if(live)return;live=true;last=performance.now();requestAnimationFrame(frame)}
+function startG(){
+  try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.resume)AC.resume()}catch(e){AC=null}
+  G=newG('play');G.sp=18;
+  CITIES.slice(1).forEach(c=>G.obj.push({k:'g',z:c[0],l:0,name:c[1]}));G.obj.push({k:'g',z:GOAL,l:0,name:'Arrivée'});
+  [45,75,105].forEach(d=>{spawn();G.obj[G.obj.length-1].z=G.pos+d});
+  $('g-ov').hidden=true;startEng();hudG();
+}
+function stopG(){
+  live=false;stopEng();G=newG('idle');
+  $('g-ot').textContent='Route d’Ivoire';$('g-op').textContent='Maintiens la gauche ou la droite pour conduire. Ramasse les passagers, évite camions, taxis et nids-de-poule.';
+  $('g-start').textContent='Jouer';$('g-ov').hidden=false;hudG();
+}
+const sideOf=e=>{const r=cv.getBoundingClientRect();return e.clientX-r.left<r.width/2?-1:1};
+cv.addEventListener('pointerdown',e=>{try{cv.setPointerCapture(e.pointerId)}catch(x){}dir=sideOf(e)});
+cv.addEventListener('pointermove',e=>{if(e.buttons||e.pointerType==='touch')dir=sideOf(e)});
+['pointerup','pointercancel','lostpointercapture'].forEach(t=>cv.addEventListener(t,()=>dir=0));
+[['g-left',-1],['g-right',1]].forEach(a=>{const b=$(a[0]);b.addEventListener('pointerdown',e=>{e.preventDefault();dir=a[1]});['pointerup','pointerleave','pointercancel'].forEach(t=>b.addEventListener(t,()=>dir=0))});
+addEventListener('keydown',e=>{if(e.key==='ArrowLeft')dir=-1;if(e.key==='ArrowRight')dir=1});
+addEventListener('keyup',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight')dir=0});
+$('g-start').onclick=startG;
+$('g-snd').onclick=()=>{snd=!snd;$('g-snd').style.opacity=snd?1:.4;if(!snd)stopEng();else if(G.mode==='play')startEng()};
+document.addEventListener('visibilitychange',()=>{if(document.hidden){live=false;stopEng()}else if(!$('s-gbaka').hidden){enterG();if(G.mode==='play')startEng()}});
+draw();
+
+/* ---------- Quel Abidjanais es-tu ---------- */
+const QQ=[
+["Un grand rassemblement, tu es…",[["Sur la piste, le premier à danser","F"],["Devant l’écran, drapeau sur les épaules","E"],["En cuisine, à nourrir tout le monde","K"],["À organiser pour que tout se passe bien","B"]]],
+["Ta musique ?",[["Coupé-décalé à fond","F"],["Les chants des supporters","E"],["Du zouglou pour chanter en famille","K"],["Ce qui m’aide à rester concentré","B"]]],
+["Un plat qui te représente ?",[["Poulet braisé, ambiance assurée","F"],["Le maquis après le match","E"],["Un bon kédjenou partagé","K"],["Ce qui se mange vite entre deux affaires","B"]]],
+["Ton super-pouvoir ?",[["L’ambiance","F"],["L’esprit d’équipe","E"],["La générosité","K"],["La persévérance","B"]]],
+["Un projet a raté, tu fais quoi ?",[["J’en ris et je repars en fête","F"],["Je rassemble l’équipe et on recommence","E"],["Je prépare à manger pour réfléchir","K"],["Je corrige et je relance dès demain","B"]]]
+];
+const PR={
+F:["L’ambianceur du coupé-décalé","Tu mets le feu partout où tu passes. Fêtes de famille, maquis, mariages : sans toi, l’ambiance retombe.","Ambiance"],
+E:["Le supporter des Éléphants","L’esprit d’équipe, c’est toi. Tu rassembles, tu encourages et tu crois en ton groupe jusqu’au dernier coup de sifflet.","Esprit d’équipe"],
+K:["Le maître du kédjenou","Tu aimes recevoir et partager. Autour de toi, personne n’a faim et chacun se sent chez lui.","Partage"],
+B:["Le bâtisseur : Union, Discipline, Travail","Persévérant et organisé, tu avances sans bruit et tu finis ce que tu commences.","Persévérance"]
+};
+let qi=0,qs={};
+function pStart(){
+  $('p-box').innerHTML=`<h2 class="t">Ton profil ivoirien</h2><p class="sub">5 questions, un caractère, à partager avec ta famille et tes amis.</p><button class="btn" id="p-go">Commencer</button>`;
+  $('p-go').onclick=()=>{qi=0;qs={};pShow()};
+}
+function pShow(){
+  const el=$('p-box');
+  if(qi>=QQ.length){
+    const ks=Object.keys(PR).sort((a,b)=>(qs[b]||0)-(qs[a]||0)),k=ks[0],[t,d]=PR[k];
+    $('m-p').textContent='Dernier profil : '+PR[k][2];
+    el.innerHTML=`<div class="mono">${k}</div><h2 class="t">${t}</h2><p>${d}</p>`+ks.map(x=>`<div class="row"><span>${PR[x][2]}</span><i style="width:${Math.max(4,(qs[x]||0)/QQ.length*100*.6)}%"></i></div>`).join('')+`<p class="sub" style="margin-top:12px">Résultat pour rire, évidemment.</p><button class="btn" id="p-sh">Partager mon profil</button><button class="btn alt" id="p-re">Refaire le test</button>`;
+    $('p-sh').onclick=e=>share(`Je suis « ${t} ». Et toi, quel Ivoirien es-tu ?`,e.target);
+    $('p-re').onclick=pStart;return;
+  }
+  const [q,o]=QQ[qi];
+  el.innerHTML=`<div class="prog"><span>Question ${qi+1} sur ${QQ.length}</span></div><div class="track"><i style="width:${qi/QQ.length*100}%"></i></div><p class="q">${q}</p>`+shuffle(o).map((x,n)=>`<button class="ans" data-k="${x[1]}"><em>${'ABCD'[n]}</em>${x[0]}</button>`).join('');
+  el.querySelectorAll('.ans').forEach(b=>b.onclick=()=>{qs[b.dataset.k]=(qs[b.dataset.k]||0)+1;vib(10);qi++;pShow()});
+}
+/* ---------- Culture générale ---------- */
+const CGQ=[
+["Géographie","Quelle est la capitale de l’Australie ?","Canberra",["Sydney","Melbourne","Perth"]],
+["Géographie","Quel est le plus long fleuve d’Afrique ?","Le Nil",["Le Congo","Le Niger","Le Zambèze"]],
+["Géographie","Quel est le plus grand océan du monde ?","Le Pacifique",["L’Atlantique","L’océan Indien","L’Arctique"]],
+["Géographie","Quelle est la capitale du Canada ?","Ottawa",["Toronto","Montréal","Vancouver"]],
+["Géographie","Quel est le pays le plus peuplé d’Afrique ?","Le Nigeria",["L’Éthiopie","L’Égypte","La RD Congo"]],
+["Géographie","Sur quel continent se trouve le Kilimandjaro ?","Afrique",["Asie","Amérique du Sud","Europe"]],
+["Géographie","Quelle est la capitale du Brésil ?","Brasilia",["Rio de Janeiro","São Paulo","Salvador"]],
+["Histoire","En quelle année la Côte d’Ivoire est-elle devenue indépendante ?","1960",["1958","1963","1975"]],
+["Histoire","Qui fut le premier président de la Côte d’Ivoire ?","Félix Houphouët-Boigny",["Henri Konan Bédié","Laurent Gbagbo","Alassane Ouattara"]],
+["Histoire","En quelle année est tombé le mur de Berlin ?","1989",["1961","1975","1991"]],
+["Histoire","Qui a été le premier homme à marcher sur la Lune ?","Neil Armstrong",["Buzz Aldrin","Youri Gagarine","John Glenn"]],
+["Histoire","En quelle année a commencé la Révolution française ?","1789",["1769","1799","1815"]],
+["Histoire","Nelson Mandela devient président de quel pays en 1994 ?","L’Afrique du Sud",["Le Zimbabwe","La Namibie","Le Kenya"]],
+["Sciences","Quelle est la planète la plus proche du Soleil ?","Mercure",["Vénus","Mars","Jupiter"]],
+["Sciences","Quelle est la formule chimique de l’eau ?","H2O",["CO2","O2","NaCl"]],
+["Sciences","Combien d’os compte le corps d’un adulte ?","206",["186","226","256"]],
+["Sciences","Quel gaz les plantes absorbent-elles pour la photosynthèse ?","Le dioxyde de carbone",["L’oxygène","L’azote","L’hélium"]],
+["Sciences","Combien de planètes compte le système solaire ?","8",["7","9","10"]],
+["Sciences","Quel métal est liquide à température ambiante ?","Le mercure",["Le plomb","L’aluminium","Le fer"]],
+["Sport","Combien de fois la Côte d’Ivoire a-t-elle gagné la CAN (jusqu’en 2024) ?","3",["1","2","4"]],
+["Sport","Quel pays a remporté la Coupe du monde de football 2022 ?","L’Argentine",["La France","La Croatie","Le Brésil"]],
+["Sport","Quel pays a remporté la Coupe du monde de football 2018 ?","La France",["La Croatie","La Belgique","Le Brésil"]],
+["Sport","Combien de joueurs une équipe de basket a-t-elle sur le terrain ?","5",["4","6","7"]],
+["Sport","Dans quelle ville ont eu lieu les Jeux olympiques de 2024 ?","Paris",["Tokyo","Los Angeles","Londres"]],
+["Sport","De quel pays vient le sprinteur Usain Bolt ?","La Jamaïque",["Le Kenya","Les États-Unis","Trinité-et-Tobago"]],
+["Arts","Qui a écrit « Les Misérables » ?","Victor Hugo",["Émile Zola","Molière","Honoré de Balzac"]],
+["Arts","Qui a peint la Joconde ?","Léonard de Vinci",["Michel-Ange","Pablo Picasso","Raphaël"]],
+["Arts","Quel écrivain ivoirien a écrit « Les Soleils des indépendances » ?","Ahmadou Kourouma",["Bernard Dadié","Amadou Hampâté Bâ","Léopold Sédar Senghor"]],
+["Arts","Quelle est la langue la plus parlée au monde en langue maternelle ?","Le mandarin",["L’anglais","L’espagnol","Le hindi"]]
+];
+const CGC=['Tout','Géographie','Histoire','Sciences','Sport','Arts'];
+let cgCat='Tout',cgI=0,cgS=0,cgL=[],cgBest=-1;
+function cgStart(){
+  $('c-box').innerHTML=`<h2 class="t">Culture générale</h2><p class="sub">10 questions sur le monde, l’histoire, les sciences, le sport et les arts. Choisis ta catégorie.</p><div class="chips">${CGC.map(c=>`<button class="chip" aria-pressed="${c===cgCat}">${c}</button>`).join('')}</div><button class="btn" id="c-go">Commencer</button>`;
+  $('c-box').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{cgCat=b.textContent;$('c-box').querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+  $('c-go').onclick=()=>{cgL=shuffle(CGQ.filter(q=>cgCat==='Tout'||q[0]===cgCat)).slice(0,10);cgI=0;cgS=0;cgShow()};
+}
+function cgShow(){
+  const el=$('c-box');
+  if(cgI>=cgL.length){
+    cgBest=Math.max(cgBest,cgS);$('m-c').textContent='Meilleur score : '+cgBest+'/'+cgL.length;
+    const r=cgS/cgL.length,v=r>=.9?'Une vraie encyclopédie':r>=.6?'Bien joué, tu es calé':r>=.3?'Pas mal, continue':'Il faut lire un peu plus';
+    const C=2*Math.PI*52;
+    el.innerHTML=`<div class="center"><svg class="score" width="130" height="130" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="var(--ln)" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="var(--gr)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${(cgS/cgL.length*C).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 60 60)"/><text x="60" y="68" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="30" fill="var(--ink)">${cgS}/${cgL.length}</text></svg><h2 class="t">${v}</h2><p class="sub">Catégorie : ${cgCat}.</p></div><button class="btn" id="c-sh">Défier mes amis</button><button class="btn alt" id="c-re">Rejouer</button>`;
+    $('c-sh').onclick=e=>share(`J’ai fait ${cgS}/${cgL.length} à Culture générale sur Ivoire Play. Tu peux faire mieux ?`,e.target);
+    $('c-re').onclick=cgStart;return;
+  }
+  const [cat,q,a,d]=cgL[cgI],opts=shuffle([a,...d]);
+  el.innerHTML=`<div class="prog"><span>Question ${cgI+1} sur ${cgL.length}</span><span>${cat}</span></div><div class="track"><i style="width:${cgI/cgL.length*100}%"></i></div><p class="q">${q}</p>`+opts.map((o,k)=>`<button class="ans" data-v="${o.replace(/"/g,'&quot;')}"><em>${'ABCD'[k]}</em>${o}</button>`).join('');
+  el.querySelectorAll('.ans').forEach(b=>b.onclick=()=>{
+    const good=b.textContent.slice(1)===a;
+    el.querySelectorAll('.ans').forEach(x=>{x.disabled=true;if(x.textContent.slice(1)===a)x.classList.add('ok')});
+    if(good){cgS++;vib(15)}else{b.classList.add('ko');vib([30,40,30])}
+    cgI++;setTimeout(cgShow,950);
+  });
+}
+
+nStart();pStart();cgStart();hudG();
+</script>
+</body>
+</html>
